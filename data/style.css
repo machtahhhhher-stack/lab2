@@ -1,0 +1,27 @@
+/* Пример CSS-файла для поиска цветов */
+:root {
+    --main-color: #1E88E5;
+    --accent: #ff4081;
+    --shadow: #00000033;
+}
+
+body {
+    background: #FAFAFA;
+    color: #212121;
+    font-family: Arial, sans-serif;
+}
+
+a { color: #1e88e5; }
+a:hover { color: #0D47A1; }
+
+.button {
+    background: #ff4081;
+    border: 1px solid #c2185b;
+    color: #fff;
+}
+
+.error { color: #f00; background: #ffebeecc; }
+
+/* Это НЕ цвета: */
+.icon::before { content: "\f0a"; }      /* код символа без решётки */
+.wrong { color: #ggg; border: #12345; }  /* недопустимые символы и длина */
