@@ -112,8 +112,15 @@ class TestUrl(unittest.TestCase):
 
     @patch("hexcolors.finder.requests.get", side_effect=requests.exceptions.ConnectionError("нет сети"))
     def test_no_connection(self, fake_get):
-        with self.assertRaises(SourceError):
+        with self.assertRaises(SourceError) as context:
             download("https://example.com")
+        self.assertIn("нет интернета", str(context.exception))
+
+    @patch("hexcolors.finder.requests.get", side_effect=requests.exceptions.InvalidURL("плохая ссылка"))
+    def test_bad_url(self, fake_get):
+        with self.assertRaises(SourceError) as context:
+            download("https://")
+        self.assertIn("плохая ссылка", str(context.exception))
 
 
 if __name__ == "__main__":

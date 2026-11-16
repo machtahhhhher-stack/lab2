@@ -102,8 +102,12 @@ def download(url: str) -> str:
         raise SourceError(f"Сайт ответил ошибкой {error.response.status_code}: {url}") from error
     except requests.exceptions.Timeout:
         raise SourceError(f"Сайт не ответил за {TIMEOUT} секунд: {url}") from None
+    except requests.exceptions.ConnectionError:
+        # сайта не существует или нет интернета - подробности пользователю не нужны
+        raise SourceError(f"Не удалось подключиться к {url} "
+                          f"(нет интернета или неверный адрес)") from None
     except requests.exceptions.RequestException as error:
-        # нет интернета, неверный адрес и прочие сетевые проблемы
+        # всё остальное: кривая ссылка, слишком много перенаправлений и т.п.
         raise SourceError(f"Не удалось открыть {url}: {error}") from error
     return response.text
 
